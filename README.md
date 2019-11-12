@@ -19,10 +19,10 @@ TODOs:
 
 -- adjust socket timeout robot-side
 
--- safe trajectory 
++ safe trajectory 
 
 -- filename check if needed
 
--- read robot message
++ read robot message
 
--- send ack from robot to Dragonframe when movement is finished
++ send ack from robot to Dragonframe when movement is finished
