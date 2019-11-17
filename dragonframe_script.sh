@@ -46,12 +46,23 @@ echo "Dragonframe Script"
 #echo "Filename   : $8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
 
 
+
+if [ "$4" == "DELETE" ]
+then
+
+echo  "DEL $5-$6-$8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+date +%H%M%S%3N >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+
+fi
+
 if [ "$4" == "POSITION" ]
 then
-echo "$5" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
-#SCRIPT_PATH="/home/opit/Desktop/hackerspace/projects/Staubli/test/DF.py" 
-#PYTHON="/usr/bin/python" 
-#$PYTHON $SCRIPT_PATH $5
+echo "$5-$6-$8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+date +%H%M%S%3N >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+
+SCRIPT_PATH="/home/opit/Desktop/hackerspace/projects/Staubli/test/DF.py" 
+PYTHON="/usr/bin/python" 
+$PYTHON $SCRIPT_PATH $5
 fi
 
 

@@ -6,15 +6,16 @@ import itertools
 import csv
 import struct
 import socket
+import config
 
 frame = int(sys.argv[1])
 #Attention: frames are numbered starting with 1, as in Dragonframe.
 
-
-fileName = "/home/opit/Desktop/hackerspace/projects/Staubli/test/robot_axes.csv"
-TCP_IP = ''
-TCP_PORT = 11000
-BUFFER_SIZE = 64
+TCP_IP = config.properties['IP']
+TCP_PORT = int(config.properties['TCP_PORT'])
+HOME = config.properties['HOME']
+fileName = HOME+"robot_axes.csv"
+BUFFER_SIZE = 4
 PREFIX = 8 
 HEADER1 = 11
 HEADER2 = 2
@@ -34,7 +35,7 @@ def setPos():
 
 def from_binary(msg):
 	#print("size", struct.calcsize(msg))
-	print(repr(msg))
+	#print(repr(msg))
 	return struct.unpack('I', msg)
 
 def float_to_hex(f):
@@ -52,20 +53,6 @@ def getFileLength(fileName):
 	reader_file = csv.reader(input_file)
 	return len(list(reader_file))
 	input_file.close()
-		
-
-
-
-#https://pymotw.com/2/socket/binary.html
-coordLength = getFileLength(fileName)
-
-def sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur):
-	msg = (PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, joint_pos[0], joint_pos[1], joint_pos[2], joint_pos[3], joint_pos[4], joint_pos[5], dummy_joint, dummy_joint, dummy_joint, dummy_joint, vel, dur)
-	packer = struct.Struct('I I I I I f f f f f f f f f f f f')
-	packed_data = packer.pack(*msg)
-	#print('sending "%s"' % binascii.hexlify(packed_data), msg)
-	print(msg)
-	a.sendall(packed_data)
 
 
 def setZeroPos():
@@ -79,33 +66,84 @@ def makeDemoLoop(times):
  	joint_pos = setPos()
  	sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)
  	time.sleep(1)
-	
-
-# log_file = open("/home/opit/Desktop/hackerspace/projects/Staubli/test/messages.log","a")
-# log_file.write(str(frame)+"\n")
-# log_file.write("Not connected\n")
-# log_file.close()
+			
 
 
-time.sleep(3) #time to run to the robot 
+
+#https://pymotw.com/2/socket/binary.html
+coordLength = getFileLength(fileName)
+#coordLength = 2 #for testing safety
+
+def sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur):
+	msg = (PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, joint_pos[0], joint_pos[1], joint_pos[2], joint_pos[3], joint_pos[4], joint_pos[5], dummy_joint, dummy_joint, dummy_joint, dummy_joint, vel, dur)
+	packer = struct.Struct('I I I I I f f f f f f f f f f f f')
+	packed_data = packer.pack(*msg)
+	print('sending "%s"' % binascii.hexlify(packed_data), msg)
+	#print(msg)
+	a.sendall(packed_data)
+
+f = open(HOME+"current_pos.csv", "r")
+start = int(f.read())
+f.close()
+#time.sleep(3) #time to run to the robot 
 a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 a.connect((TCP_IP, TCP_PORT))
 
 
-if DFControl:
+def goto(frame):
+	print("goto ", frame)
 	if (frame > 0 & frame < coordLength+1):
-		for i in range(1, frame+1):
-			joint_pos = getDFPos(i)
-			print(joint_pos)
-			sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)
-			
-			for i in range(0, 4):
-				data = a.recv(BUFFER_SIZE)
-			#	print(data)
-			#	print("ack")
-				print(from_binary(data)) #unpack() always returns a tuple
-			#	print("ack")
-			time.sleep(0.2)
+		joint_pos = getDFPos(frame)
+		print("joints: ",joint_pos)
+		sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)	
+		ret = 0
+		msg = [0]*17
+		for i in range(0, 17):
+		 	data = a.recv(BUFFER_SIZE)
+		 	msg[i] = from_binary(data)[0]
+	 	ret = msg[3]
+	 	#print(ret)
+	 	#print(msg)
+	 	#exit()
+		if (ret == 1):
+		 	print("Robot has arrived to a point")
+		 	time.sleep(0.1)
+			with open('/home/opit/Desktop/hackerspace/projects/Staubli/test/current_pos.csv','wb') as f:
+				f.write(str(frame))  #saving the set frame, TODO: move after robot ack
+		else:
+			print("Robot is stuck, ret = ", ret) 	
+		return ret		
+
+
+if DFControl:
+	end = frame
+	curr_frame = start
+	print(end, curr_frame)
+	if (start == end):
+		print("Same point")
+		
+	if (abs(start - end) >= coordLength+1):
+		print("Wrong trajectory or file, trajectory length: ", abs(start - end))
+	else:	
+		if (start < end):
+			while (curr_frame < end):
+				curr_frame = curr_frame + 1
+				ret = goto(curr_frame)
+				print(curr_frame)
+				time.sleep(0.5)
+				if (ret!=1):
+					break
+
+		elif (start > end):
+			while (curr_frame > end):
+				curr_frame = curr_frame - 1
+				ret = goto(curr_frame)	
+				print(curr_frame)
+				time.sleep(0.5)				
+				if (ret!=1):
+					break
+
+
 		
 elif manualControl:
 	#joint_pos = getDFPos(frame)
@@ -117,9 +155,7 @@ elif demoLoop:
 	makeDemoLoop(frame)
 else:
 	print("Select motion control method!")	
-
-
-time.sleep(2)
+time.sleep(0.5)
 a.close()
 
 
