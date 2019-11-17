@@ -1,4 +1,5 @@
 #!/bin/bash
+source config.conf
 #
 # Rename file from dragonframe_script.sh.txt to dragonframe_script.sh
 # then run 'chmod u+x dragonframe_script.sh' to make it executable.
@@ -33,35 +34,35 @@
 #
 # "CONFORM" means a conform edits is complete.
 #
+echo $PROJECT_PATH
 
 echo "Dragonframe Script"
 
-#echo "Production : $1" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Scene      : $2" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Take       : $3" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Action     : $4" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Frame      : $5" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Exposure   : $6" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Exp. Name  : $7" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
-#echo "Filename   : $8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
+# echo "Production : $1" 
+# echo "Scene      : $2"  
+# echo "Take       : $3"  
+# echo "Action     : $4"  
+# echo "Frame      : $5"  
+# echo "Exposure   : $6"  
+# echo "Exp. Name  : $7"  
+# echo "Filename   : $8"  
 
 
 
 if [ "$4" == "DELETE" ]
 then
 
-echo  "DEL $5-$6-$8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
-date +%H%M%S%3N >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+echo  "DEL $5-$6-$8" >> $PROJECT_PATH/log.txt
+date +%H%M%S%3N >> $PROJECT_PATH/log.txt
 
 fi
 
 if [ "$4" == "POSITION" ]
 then
-echo "$5-$6-$8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
-date +%H%M%S%3N >> /home/opit/Desktop/hackerspace/projects/Staubli/test/log.txt
+echo "$5-$6-$8" >> $PROJECT_PATH/log.txt
+date +%H%M%S%3N >> $PROJECT_PATH/log.txt
 
-SCRIPT_PATH="/home/opit/Desktop/hackerspace/projects/Staubli/test/DF.py" 
-PYTHON="/usr/bin/python" 
+SCRIPT_PATH=$PROJECT_PATH/DF.py  
 $PYTHON $SCRIPT_PATH $5
 fi
 
@@ -69,7 +70,7 @@ fi
 if [ "$4" == "EDIT" ]
 then
 
-echo "EDIT $5-$6-$7-$8" >> ~/dragonframe_script_log_edit.txt
+echo "EDIT $5-$6-$7-$8" >> $PROJECT_PATH/dragonframe_script_log_edit.txt
 
 fi
 
@@ -77,21 +78,21 @@ fi
 #if [ "$4" == "CC" ]
 #then
 
-#echo "CC $5-$6 -> $8" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
+#echo "CC $5-$6 -> $8" >>
 
 #fi
 
 #if [ "$4" == "FC" ]
 #then
 
-#echo "FC $5-$6" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
+#echo "FC $5-$6" >> 
 
 #fi
 
 #if [ "$4" == "EDIT" ]
 #then
 
-#echo "EDIT $5-$6" >> /home/opit/Desktop/hackerspace/projects/Staubli/test/dragonframe_script_log.txt
+#echo "EDIT $5-$6" >> 
 
 #fi
 
