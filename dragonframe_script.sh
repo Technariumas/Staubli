@@ -63,7 +63,7 @@ echo "$5-$6-$8" >> $PROJECT_PATH/log.txt
 date +%H%M%S%3N >> $PROJECT_PATH/log.txt
 
 SCRIPT_PATH=$PROJECT_PATH/DF.py  
-$PYTHON $SCRIPT_PATH $5
+$PYTHON $SCRIPT_PATH $5 $2 $3
 fi
 
 

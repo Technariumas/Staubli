@@ -9,12 +9,15 @@ import socket
 import config
 
 frame = int(sys.argv[1])
+scene = sys.argv[2]
+take = sys.argv[3]
 #Attention: frames are numbered starting with 1, as in Dragonframe.
 
 TCP_IP = config.properties['IP']
 TCP_PORT = int(config.properties['TCP_PORT'])
-HOME = config.properties['HOME']
-fileName = HOME+"robot_axes.csv"
+PROJECT_PATH = config.properties['PROJECT_PATH']
+PROJECT_PREFIX = config.properties['PROJECT_PREFIX']
+fileName = PROJECT_PATH+PROJECT_PREFIX+"SC"+scene+"SH"+take+".csv"
 BUFFER_SIZE = 4
 PREFIX = 8 
 HEADER1 = 11
@@ -24,7 +27,7 @@ SEQUENCE = 0
 dummy_joint = 0 
 vel = 1.
 dur = 999
-
+move_delay = 0.5
 DFControl = True
 manualControl = False
 demoLoop = False
@@ -82,7 +85,7 @@ def sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE,
 	#print(msg)
 	a.sendall(packed_data)
 
-f = open(HOME+"current_pos.csv", "r")
+f = open(PROJECT_PATH+"current_pos.csv", "r")
 start = int(f.read())
 f.close()
 #time.sleep(3) #time to run to the robot 
@@ -108,7 +111,7 @@ def goto(frame):
 		if (ret == 1):
 		 	print("Robot has arrived to a point")
 		 	time.sleep(0.1)
-			with open('/home/opit/Desktop/hackerspace/projects/Staubli/test/current_pos.csv','wb') as f:
+			with open(PROJECT_PATH+'current_pos.csv','wb') as f:
 				f.write(str(frame))  #saving the set frame, TODO: move after robot ack
 		else:
 			print("Robot is stuck, ret = ", ret) 	
@@ -119,30 +122,30 @@ if DFControl:
 	end = frame
 	curr_frame = start
 	print(end, curr_frame)
-	if (start == end):
-		print("Same point")
-		
+	
 	if (abs(start - end) >= coordLength+1):
 		print("Wrong trajectory or file, trajectory length: ", abs(start - end))
-	else:	
+	else:
 		if (start < end):
 			while (curr_frame < end):
 				curr_frame = curr_frame + 1
 				ret = goto(curr_frame)
 				print(curr_frame)
-				time.sleep(0.5)
+				time.sleep(move_delay)
 				if (ret!=1):
 					break
-
 		elif (start > end):
 			while (curr_frame > end):
 				curr_frame = curr_frame - 1
 				ret = goto(curr_frame)	
 				print(curr_frame)
-				time.sleep(0.5)				
+				time.sleep(move_delay)				
 				if (ret!=1):
 					break
-
+		elif (start == end):
+			print("Same point")
+			ret = goto(curr_frame)
+			time.sleep(move_delay)				
 
 		
 elif manualControl:
