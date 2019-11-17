@@ -21,7 +21,7 @@ TODOs:
 
 + safe trajectory 
 
--- filename check if needed
++ filename check: filenames are corresponding (AFAIK) to Dragonframe project settings as PROJECT_PREFIX+"SC"+scene+"SH"+take+".csv".
 
 + read robot message
 
