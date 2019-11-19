@@ -9,15 +9,16 @@ import socket
 import config
 
 frame = int(sys.argv[1])
-scene = sys.argv[2]
-take = sys.argv[3]
+scene = sys.argv[3]
+prod = sys.argv[2]
 #Attention: frames are numbered starting with 1, as in Dragonframe.
 
 TCP_IP = config.properties['IP']
 TCP_PORT = int(config.properties['TCP_PORT'])
 PROJECT_PATH = config.properties['PROJECT_PATH']
-PROJECT_PREFIX = config.properties['PROJECT_PREFIX']
-fileName = PROJECT_PATH+PROJECT_PREFIX+"SC"+scene+"SH"+take+".csv"
+PROJECT_PREFIX = str(prod)
+fileName = PROJECT_PATH+prod+"_"+scene+".csv"
+print(fileName)
 BUFFER_SIZE = 4
 PREFIX = 8 
 HEADER1 = 11
@@ -104,6 +105,7 @@ def goto(frame):
 		for i in range(0, 17):
 		 	data = a.recv(BUFFER_SIZE)
 		 	msg[i] = from_binary(data)[0]
+		print("msg: ", msg) 	
 	 	ret = msg[3]
 	 	#print(ret)
 	 	#print(msg)
@@ -113,8 +115,17 @@ def goto(frame):
 		 	time.sleep(0.1)
 			with open(PROJECT_PATH+'current_pos.csv','wb') as f:
 				f.write(str(frame))  #saving the set frame, TODO: move after robot ack
+				f.close()
+			with open('/home/opit/Desktop/hackerspace/projects/Staubli/Staubli/log.txt','ab') as f:
+				f.write("Step to: "+str(frame)+"\n")  #saving the set frame
+				f.close()
+		
 		else:
-			print("Robot is stuck, ret = ", ret) 	
+			print("Robot is stuck, ret = ", ret)
+			with open('/home/opit/Desktop/hackerspace/projects/Staubli/Staubli/log.txt','ab') as f:
+				f.write("Robot is stuck at: "+str(frame)+"\n")  #saving the set frame
+				f.close()
+ 	
 		return ret		
 
 
@@ -158,7 +169,8 @@ elif demoLoop:
 	makeDemoLoop(frame)
 else:
 	print("Select motion control method!")	
-time.sleep(0.5)
+#time.sleep(0.5)
+a.shutdown(socket.SHUT_WR)
 a.close()
 
 
