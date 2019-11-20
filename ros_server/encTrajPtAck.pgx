@@ -19,7 +19,7 @@
   // encode 'prefix' and 'header'
   call encPrefixHeader(rosTrajPtAck.prefix, rosTrajPtAck.header)
   // encode 'sequence' variable of body message (data)
-  logMsg("msg body: "+toString("", rosTrajPtAck.jointTrajPt.nSeq))
+  // logMsg("msg body: "+toString("", rosTrajPtAck.jointTrajPt.nSeq))
   toBinary(rosTrajPtAck.jointTrajPt.nSeq,1,"-4l",rosTrajPtAck.body.nData)
   // encodings of 'joints[10]', 'velocity' and 'duration' ignored to save CPU time, since values are all zeros
 end]]></Code>

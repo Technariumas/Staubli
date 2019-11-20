@@ -68,13 +68,20 @@
           // Checking for dist(l_motion, herej()) (pseudo code) would not be correct as there will
           // always be a delay in the data coming out of herej() and the actual pose of the robot.
           // @TODO potentially set move id according to sequence value
+          // delay(0.2)
+          // watch(isSettled(), 5)
+          // logMsg("before movej")
           nMoveId = movej(l_motion.jJointRx, tTool, l_motion.mDesc)
+          // logMsg("before waitendmove")
+          waitEndMove()
+          watch(isSettled(), 2)
+          // logMsg("after isSettled")
+          //delay(0.5)
           // logMsg(toString(".6", clock()-tPrev))
           tPrev = clock()
         endIf
       endIf
     else
-
         // stop immediately -- resetMotion() also resets moveId
       resetMotion()
       // clear buffers

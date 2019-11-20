@@ -23,15 +23,13 @@
     case 11
       
       // logMsg(toString("", l_jCurrPose))
-      // call encPrefixHeader(rosJointMsg.prefix, rosJointMsg.header)
-        if (isSettled()==true)
-        logMsg("robot settled")
+      // call encPrefixHeader(rosJointMsg.prefix, rosJointMsg.header)      
         // l_jCurrPose=herej()
         // call encodeJState(l_jCurrPose)
         call encTrajPtAck()
       // encode and send ROS simple_message ID 10: joint state
        // call sendRosMsg(siTcpIpFbk, rosJointMsg.prefix, rosJointMsg.header, rosJointMsg.body, nOutConnFlag) 
-      endIf
+      // endIf
     break
     case 14
       call encTrajPtFAck()
