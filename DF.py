@@ -83,15 +83,13 @@ def sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE,
 	packer = struct.Struct('I I I I I f f f f f f f f f f f f')
 	packed_data = packer.pack(*msg)
 	print('sending "%s"' % binascii.hexlify(packed_data), msg)
-	#print(msg)
-	a.sendall(packed_data)
+	return packed_data#print(msg)
+	
 
 f = open(PROJECT_PATH+"current_pos.csv", "r")
 start = int(f.read())
 f.close()
 #time.sleep(3) #time to run to the robot 
-a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-a.connect((TCP_IP, TCP_PORT))
 
 
 def goto(frame):
@@ -99,7 +97,10 @@ def goto(frame):
 	if (frame > 0 & frame < coordLength+1):
 		joint_pos = getDFPos(frame)
 		print("joints: ",joint_pos)
-		sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)	
+		a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		a.connect((TCP_IP, TCP_PORT))
+		packed_data = sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)	
+		a.sendall(packed_data)
 		ret = 0
 		msg = [0]*17
 		for i in range(0, 17):
@@ -107,9 +108,8 @@ def goto(frame):
 		 	msg[i] = from_binary(data)[0]
 		print("msg: ", msg) 	
 	 	ret = msg[3]
-	 	#print(ret)
-	 	#print(msg)
-	 	#exit()
+		a.shutdown(socket.SHUT_WR)
+		a.close()
 		if (ret == 1):
 		 	print("Robot has arrived to a point")
 		 	time.sleep(0.1)
@@ -170,8 +170,6 @@ elif demoLoop:
 else:
 	print("Select motion control method!")	
 #time.sleep(0.5)
-a.shutdown(socket.SHUT_WR)
-a.close()
 
 
 
