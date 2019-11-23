@@ -87,11 +87,13 @@
     endIf
     
     if (l_bOk==false)
+
       // could not push trajectory point into buffer
       // thus ACK should flag FAILURE, but only if comm type is request
       if (rosGenericMsg.header.nCommType==2)
         switch rosGenericMsg.header.nMsgType
           case 11
+            logMsg("could not push trajectory point into buffer")
             rosTrajPtAck.header.nReplyCode=2
           break
           case 14
