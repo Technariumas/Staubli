@@ -28,7 +28,7 @@ SEQUENCE = 0
 dummy_joint = 0 
 vel = 1.
 dur = 999
-move_delay = 0.5
+move_delay = 1
 DFControl = True
 manualControl = False
 demoLoop = False
@@ -112,17 +112,16 @@ def goto(frame):
 		a.close()
 		if (ret == 1):
 		 	print("Robot has arrived to a point")
-		 	time.sleep(0.1)
-			with open(PROJECT_PATH+'current_pos.csv','wb') as f:
-				f.write(str(frame))  #saving the set frame, TODO: move after robot ack
+		 	with open(PROJECT_PATH+'current_pos.csv','wb') as f:
+				f.write(str(frame))  #saving the set frame
 				f.close()
-			with open('/home/opit/Desktop/hackerspace/projects/Staubli/Staubli/log.txt','ab') as f:
+			with open(PROJECT_PATH+'log.txt','ab') as f:
 				f.write("Step to: "+str(frame)+"\n")  #saving the set frame
 				f.close()
 		
 		else:
 			print("Robot is stuck, ret = ", ret)
-			with open('/home/opit/Desktop/hackerspace/projects/Staubli/Staubli/log.txt','ab') as f:
+			with open(PROJECT_PATH+'log.txt','ab') as f:
 				f.write("Robot is stuck at: "+str(frame)+"\n")  #saving the set frame
 				f.close()
  	
