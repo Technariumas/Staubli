@@ -1,5 +1,6 @@
 #!/bin/bash
-source config.conf
+PROJECT_PATH=/Users/primavera/Desktop/Staubli
+PYTHON="/usr/bin/python"
 #
 # Rename file from dragonframe_script.sh.txt to dragonframe_script.sh
 # then run 'chmod u+x dragonframe_script.sh' to make it executable.
@@ -59,11 +60,11 @@ fi
 
 if [ "$4" == "POSITION" ]
 then
-echo "$5-$6-$8" >> $PROJECT_PATH/log.txt
+echo "$5-$1-$2" >> $PROJECT_PATH/log.txt
 date +%H%M%S%3N >> $PROJECT_PATH/log.txt
 
 SCRIPT_PATH=$PROJECT_PATH/DF.py  
-$PYTHON $SCRIPT_PATH $5 $2 $3
+nohup $PYTHON $SCRIPT_PATH $5 $1 $2 >/dev/null 2>&1 </dev/null &
 fi
 
 
@@ -73,7 +74,18 @@ then
 echo "EDIT $5-$6-$7-$8" >> $PROJECT_PATH/dragonframe_script_log_edit.txt
 
 fi
-
+ret=$?
+#
+#  returns > 127 are a SIGNAL
+#
+if [ $ret -gt 127 ]; then
+        sig=$((ret - 128))
+        echo "Got SIGNAL $sig"
+        if [ $sig -eq $(kill -l SIGKILL) ]; then
+                echo "process was killed with SIGKILL" >> $PROJECT_PATH/log.txt
+                sudo dmesg >  $PROJECT_PATH/kill_log.txt
+        fi
+fi
 #
 #if [ "$4" == "CC" ]
 #then
