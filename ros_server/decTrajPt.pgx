@@ -28,7 +28,7 @@
   // decode message ID 11 body (data)
   
   // assume failure to decode
-  logMsg("failure to decode")
+  
   rosTrajPtAck.header.nReplyCode=2
 
   // sequence
