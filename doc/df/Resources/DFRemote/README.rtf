@@ -1,0 +1,65 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green29\blue232;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww14200\viewh13180\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Arduino Remote with Dragonframe (DFRemote)\
+
+\b0 \
+
+\b Overview
+\b0 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 Create a remote control for Dragonframe using an inexpensive hobby board. Use the remote to interact with motion control systems, cameras, or other hardware devices. The remote can send commands to Dragonframe (shoot a frame, delete a frame, play/stop, go to live) or receive notifications from Dragonframe (shoot, delete and position frame).\
+Arduino ({\field{\*\fldinst{HYPERLINK "http://arduino.cc/"}}{\fldrslt \cf2 \ul \ulc2 http://arduino.cc/}}) is a hobby electronics board with open-source software and hardware specifications. With some simple wiring and pre-made software, you can wire the Arduino to control Dragonframe, or to control an external system based on events from Dragonframe.\
+
+\b NOTE:
+\b0  This is not the sketch used for to control stepper motors via the Arc Motion Control workspace. That sketch is located in the Arc Motion Control folder, and is named DFMoco.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\b \cf0 Simple Serial Interface\
+
+\b0 The Arduino remote integrates with Dragonframe by implementing the simple serial interface.\
+The specification of the interface can be found here:\
+http://www.dragonframe.com/arduino/serial.php\
+
+\b \
+Working with the Sample Program\
+
+\b0 Double-click the 
+\b DFRemoteExample.ino
+\b0  sketch to open it in the Arduino editor.\
+Modify the sample program and connect your inputs and outputs according to your needs.\
+Upload the program to the board.\
+
+\b \
+Connecting Dragonframe and the Arduino Board\
+
+\b0 \
+\pard\pardeftab720\li720\fi-360\ri720\sa200\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	1.	}Start Dragonframe.\
+{\listtext	2.	}Create a new scene or open a previous one.\
+{\listtext	3.	}Select 
+\b Connections...
+\b0  from the 
+\b Scene
+\b0  menu.\
+{\listtext	4.	}Press 
+\b Add Connection
+\b0  and select 
+\b DFRemote Arduino
+\b0  as the device type.\
+{\listtext	5.	}Choose the appropriate serial port. (Note, if you are on OS X you may have to install drivers to access a USB serial port connector. Select 
+\b Install Serial USB Drivers 
+\b0 from the 
+\b Help
+\b0  menu.)\
+{\listtext	6.	}Press the 
+\b Connect
+\b0  button.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+}

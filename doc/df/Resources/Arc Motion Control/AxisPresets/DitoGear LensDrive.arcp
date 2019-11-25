@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scen:scene cameraOperator="" xmlns:scen="http://caliri.com/motion/scene">
+  <scen:axis units="deg" backlashRollback="1.6" stepsPerUnit="154" pulseRate="15000" runMaxVelocity="20000" runMaxAcceleration="20000" base="0" integral="false" connectionType="1" connectionChannel="1"/>
+</scen:scene>
