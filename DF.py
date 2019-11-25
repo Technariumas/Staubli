@@ -30,7 +30,7 @@ SEQUENCE = 0
 dummy_joint = 0 
 vel = 1.
 dur = 999
-move_delay = 0.6 	
+move_delay = 0.4	
 DFControl = True
 manualControl = False
 demoLoop = False
@@ -42,7 +42,7 @@ def setPos():
 def from_binary(msg):
 	#print("size", struct.calcsize(msg))
 	#print(repr(msg))
-	return struct.unpack('I', msg)
+	return struct.unpack('I I I I I I I I I I I I I I I I', msg)
 
 def float_to_hex(f):
 	#print(f)
@@ -135,7 +135,8 @@ def goto(frame):
 			a.sendall(packed_data)			
 			ret = 0			
 			data = a.recv(BUFFER_SIZE, socket.MSG_WAITALL)
-			msg = from_binary(data)[0]
+			print(len(data))
+			msg = from_binary(data)
 			print("msg: ", msg) 	
 		 	ret = msg[3]
 		 	print("ret: ", ret)
@@ -171,13 +172,12 @@ def goto(frame):
 				packed_data = sendMsg(joint_pos, dummy_joint, PREFIX, HEADER1, HEADER2, HEADER3, SEQUENCE, vel, dur)	
 				a.sendall(packed_data)			
 				ret = 0
-				msg = [0]*17
-				for i in range(0, 17):
-				 	data = a.recv(BUFFER_SIZE)
-				 	msg[i] = from_binary(data)[0]
+				data = a.recv(BUFFER_SIZE, socket.MSG_WAITALL)
+				msg = from_binary(data)[0]
 				print("msg: ", msg) 	
-			 	ret = msg[3]
-			 	time.sleep(move_delay)
+		 		ret = msg[3]
+		 		print("ret: ", ret)			 	
+		 		time.sleep(move_delay)
 
 				#a.shutdown(socket.SHUT_RDWR)
 				a.close()
