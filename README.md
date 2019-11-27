@@ -10,20 +10,7 @@ Instrukcijos, kaip dirbti su robotu ir Dragonframe'u: https://github.com/Technar
 
 Uploading a VAL3 code directory recursively: 
 
-ncftp -u maintenance <IP>
-  
-  
-mput -r <dir>  
+_ncftp -u maintenance <IP>
+    
+mput -r <dir>_
 
-TODOs:
-+ check timestamps b/ween adjacent positions
-
--- adjust socket timeout robot-side
-
-+ safe trajectory 
-
-+ filename check: filenames are corresponding (AFAIK) to Dragonframe project settings as PROJECT_PREFIX+"SC"+scene+"SH"+take+".csv".
-
-+ read robot message
-
-+ send ack from robot to Dragonframe when movement is finished
