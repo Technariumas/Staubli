@@ -16,19 +16,19 @@
 1. Pajungti Etherneto kabelį į kairę jungtį (berods, J204) ant kontrolerio ir į kompiuterio Etherneto jungtį.
 2. Įjungti kontrolerį. ROS serveris turėtų pasileisti automatiškai, tai indikuoja oranžinis LED'as prie _Run_ mygtuko.
 3. Kontroleriui pilnai startavus, perjungti robotą į _Local_ veikimo būseną (žr. https://github.com/Technariumas/Staubli/blob/master/img/LocalMode.png).
-4. Paleisti Dragonframe. Įsitikinti, kad roboto veikimą užtikrinantis script'as yra susietas su Dragonframe (Dragonframe --> Preferences --> Advanced --> Enable action script)
+4. Paleisti Dragonframe. Įsitikinti, kad roboto veikimą užtikrinantis script'as yra susietas su Dragonframe (_Dragonframe --> Preferences --> Advanced --> Enable action script)
 5. Atsidaryti reikiamą projektą. Prieš tai įsitikinti, kad projekto Production ir Scene savybės atitinka trajektorijos failo vardą (žr. _Ko nedaryti_). 
 6. Paleidus DF arba atsidarius naują take'ą, robotas gali grįžti į 1 poziciją. 
 
 
 
-#Kaip diagnozuoti ir spręsti problemas, kai jos iškyla
+# Kaip diagnozuoti ir spręsti problemas, kai jos iškyla
 
-1. Jei robotas nejuda: įsitikinti, kad jis yra _Local_ darbinėje būsenoje, kad įjungtos roboto ašys bei _Move Hold_ mygtukas (indikuojama LED'ais). Įsitikinti, kad aktyvi Staubli Ethernet jungtis (prie Mac'o _Network_ nustatymų). Įsitikinti, kad veikia ROS'o serveris (indikuojama oranžiniu LED'u prie _Run_ mygtuko. Įsitikinti, kad _dragonframe.sh_ script'as susietas su DF (žr. _Darbo eiga_ 4 punktas). Paklikinti kelis kartus tarp kadrų -- kartais robotas komandas gauna ne iš karto, startavus Dragonframe'ą. Jei niekas nepadeda, eiti į
+1. Jei robotas nejuda: įsitikinti, kad jis yra _Local_ darbinėje būsenoje, kad įjungtos roboto ašys bei _Move Hold_ mygtukas (indikuojama LED'ais). Įsitikinti, kad aktyvi Staubli Ethernet jungtis (prie Mac'o _Network_ nustatymų). Įsitikinti, kad veikia ROS'o serveris (indikuojama oranžiniu LED'u prie _Run_ mygtuko. Įsitikinti, kad _dragonframe.sh_ script'as susietas su DF (žr. _Darbo eiga_ 4 punktas). Paklikinti kelis kartus tarp kadrų -- kartais robotas komandas gauna ne iš karto, startavus Dragonframe'ą. 
 2. Jei robotas pameta padėtį: įsitikinti, kad roboto greitis yra 25% arba daugiau. Gali padėti padidinti greitį ir pašokinėti tarp kadrų. Prieš tęsiant darbą, įsitikinti, kad robotas atvažiavo į reikiamą padėtį.
 3. Kartais 1-2 atvejais gali padėti perjungti roboto darbinę padėtį į _Manual_ ir jį atvaryti iki nulinės padėties.
 4. Kadras, į kurį turėjo nueiti robotas, ir 1 ašies koordinatės visada rašomos į log.txt failą (studijos Mac'e jis yra Staublio folderyje ant darbalaukio, t.y. /Users/primavera/Desktop/Staubli/log.txt). Jį galima realiu laiku stebėti terminale. Jeigu terminalas uždarytas, seka tokia: _Cmd+Space_, įrašyti _Terminal_, spausti _Enter_. Atsidarius terminalui, jame surinkti komandą _cd /Users/primavera/Desktop/Staubli_. Komanda _pwd_ galite įsitikinti, kad tikrai ten esate. Tada surinkti komandą _tail -f log.txt_.
 5. Paties roboto pozicija yra rodoma pulte, einant į _Control panel_ --> _Controller status_ --> _Joint position_
-6. Jeigu kažkas blogai ir vis dar neaišku, kodėl: pasižiūrėti, ką rodo pulto ekranas ir event log'as (_Menu_ mygtukas --> _Event log_ ar pan.)
+6. Jeigu kažkas blogai ir vis dar neaišku, kodėl: pasižiūrėti, ką rodo pulto ekranas ir event log'as (_Menu_ mygtukas --> _Event log_ ar pan.) ir skambinti man :)
 
 
